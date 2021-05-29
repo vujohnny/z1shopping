@@ -13,6 +13,8 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       const item = action.payload;
       const existItem = state.cartItems.find((x) => x.product === item.product);
       if (existItem) {
+        var segment = require('../components/segmentAnalytics')
+        segment.data.cartViewed(existItem);
         return {
           ...state,
           error: '',

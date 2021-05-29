@@ -5,6 +5,9 @@ export default function SearchBox(props) {
   const submitHandler = (e) => {
     e.preventDefault();
     props.history.push(`/search/name/${name}`);
+
+    var segment = require('./segmentAnalytics')
+    segment.data.searchAnalytics(name);
   };
   return (
     <form className="search" onSubmit={submitHandler}>

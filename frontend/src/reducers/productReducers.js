@@ -68,6 +68,8 @@ export const productDetailsReducer = (state = { loading: true }, action) => {
     case PRODUCT_DETAILS_REQUEST:
       return { loading: true };
     case PRODUCT_DETAILS_SUCCESS:
+      var segment = require('../components/segmentAnalytics');
+      segment.data.productClicked(action);
       return { loading: false, product: action.payload };
     case PRODUCT_DETAILS_FAIL:
       return { loading: false, error: action.payload };
