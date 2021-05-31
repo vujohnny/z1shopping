@@ -26,8 +26,8 @@ export default function HomeScreen() {
     dispatch(listTopSellers());
   }, [dispatch]);
 
-  var z1=require('../components/zineoneEvents');
-  z1.data.viewedHome();
+  //var z1=require('../components/zineoneEvents');
+  //z1.data.viewedHome();
   return (
     <div>
       <h2>Top Sellers</h2>
