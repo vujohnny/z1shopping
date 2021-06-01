@@ -1,6 +1,27 @@
 
 const analytics = window.analytics;
+function makeid(length){
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+const userId=makeid(10);
+
 var methods = {
+    identity: function(){
+        console.log("identity fire");
+        analytics.identify(userId, {
+            name: "Test",
+            email: "Test@example.com",
+            plan: "premium",
+            subscriptionStatus: 'active',
+            logins: 2
+          });
+    },
 
     searchAnalytics: function(name){
         console.log(name);
@@ -60,7 +81,8 @@ var methods = {
             list_id: 'hot_deals_1',
             category: 'Deals',
             products: object[prod]
-        });
+        })
+        methods.identity();
     },
 
     cartViewed: function(existItem){
