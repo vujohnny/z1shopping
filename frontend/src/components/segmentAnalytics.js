@@ -13,7 +13,6 @@ const userId=makeid(10);
 
 var methods = {
     identity: function(){
-        console.log("identity fire");
         analytics.identify(userId, {
             name: "Test",
             email: "Test@example.com",
@@ -25,7 +24,7 @@ var methods = {
 
     searchAnalytics: function(name){
         console.log(name);
-        analytics.track('Products Searched', {
+        analytics.track('Products Searchedxyz', {
           query: name
         });
     },
