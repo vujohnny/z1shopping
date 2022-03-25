@@ -32,7 +32,8 @@ demoRouter.get(
         button1:req.body.button1,
         button2:req.body.button2,
         description:req.body.description,
-        img:req.body.img
+        img:req.body.img,
+        img2:req.body.img2
       });
       const createdDemo = await demo.save();
       res.send({ message: 'Title Created', demo: createdDemo });
@@ -50,7 +51,8 @@ demoRouter.get(
             demo.button1=req.body.button1,
             demo.button2=req.body.button2,
             demo.description=req.body.description,
-            demo.img=req.body.img
+            demo.img=req.body.img,
+            demo.img2=req.body.img2
             const updateddemo = await demo.save();
         res.send({ message: 'demo Updated', demo: updateddemo });
       } else {

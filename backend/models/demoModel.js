@@ -17,6 +17,7 @@ const demoSchema = new mongoose.Schema(
        button2:{type:String, require:true},
        description:{type:String, require:true},
        img:{type:String, require:true},
+       img2:{type:String, require:true},
        analytics:[analyticsSchema]
     }
 );
