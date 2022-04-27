@@ -12,6 +12,7 @@ import demoRouter from './routers/demoRouter.js';
 import inappRouter from './routers/inappRouter.js';
 import eventsRouter from './routers/eventsRouter.js';
 import request from 'request';
+import axios from 'axios';
 
 
 dotenv.config();
@@ -38,19 +39,18 @@ app.use('/api/inapp', function(req, res) {
   req.pipe(r).pipe(res);
 });
 //app.use('/api/events', eventsRouter);
-app.use('/api/events', function(req, res) {
-  var url = 'https://api.iterable.com/api/events'+ req.url;
-  var r = null;
-  if(req.method === 'POST') {
-     r = request.post({uri: url, json: req.body});
-  } else {
-     r = request(url);
-  }
+app.use('/api/events', async(req, res) => {
   try{
-    req.pipe(r).pipe(res);
-  }catch (error) {
-        res.status(400).json({message: `${error}`});
-      }
+      const response=await axios.post('https://api.iterable.com/api/events'+req.url, req.body,{headers: {'api-key': req.headers['api-key']}}
+  )
+      res.status(200).json(response.data);
+  }
+
+  catch(err) {
+      console.error(err);
+      res.json(err);
+
+  };
 });
 app.use('/api/uploads', uploadRouter);
 app.use('/api/users', userRouter);
