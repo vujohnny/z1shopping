@@ -9,6 +9,10 @@ import userRouter from './routers/userRouter.js';
 import orderRouter from './routers/orderRouter.js';
 import uploadRouter from './routers/uploadRouter.js';
 import demoRouter from './routers/demoRouter.js';
+import inappRouter from './routers/inappRouter.js';
+import eventsRouter from './routers/eventsRouter.js';
+import request from 'request';
+
 
 dotenv.config();
 
@@ -22,6 +26,32 @@ mongoose.connect(process.env.MONGODB_URL || 'mongodb+srv://admin:286817100@devco
   useCreateIndex: true,
 });
 app.use('/api/demo', demoRouter);
+app.use('/api/inapp', function(req, res) {
+  var url = 'https://api.iterable.com/api/inApp'+ req.url;
+  var r = null;
+  if(req.method === 'POST') {
+     r = request.post({uri: url, json: req.body});
+  } else {
+     r = request(url);
+  }
+
+  req.pipe(r).pipe(res);
+});
+//app.use('/api/events', eventsRouter);
+app.use('/api/events', function(req, res) {
+  var url = 'https://api.iterable.com/api/events'+ req.url;
+  var r = null;
+  if(req.method === 'POST') {
+     r = request.post({uri: url, json: req.body});
+  } else {
+     r = request(url);
+  }
+  try{
+    req.pipe(r).pipe(res);
+  }catch (error) {
+        res.status(400).json({message: `${error}`});
+      }
+});
 app.use('/api/uploads', uploadRouter);
 app.use('/api/users', userRouter);
 app.use('/api/products', productRouter);

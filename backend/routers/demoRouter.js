@@ -6,13 +6,14 @@ import { isAdmin, isAuth, isSellerOrAdmin } from '../utils.js';
 
 const demoRouter = express.Router();
 
-demoRouter.get(
+  demoRouter.get(
     '/',
     expressAsyncHandler(async (req, res) => {
       const demos = await Demo.find();
       res.send(demos);
     })
   );
+
 
   demoRouter.get(
     '/:id',

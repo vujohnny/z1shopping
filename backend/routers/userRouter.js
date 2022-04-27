@@ -7,6 +7,22 @@ import { generateToken, isAdmin, isAuth } from '../utils.js';
 
 const userRouter = express.Router();
 
+userRouter.post(
+  '/update',
+  expressAsyncHandler(async (req, res) => {
+    fetch('http://54.212.26.219:5000/api/demo/623c0da3b4b34eef2e91374b/analytic', {
+    method: 'POST',
+    body: JSON.stringify(req.body),
+    headers: req.headers
+      }).then(res => res.json())
+        .then(json => {
+          console.log(json)
+          res.send(json);
+        })
+        .catch(err => console.log(err))
+          })
+);
+
 userRouter.get(
   '/top-sellers',
   expressAsyncHandler(async (req, res) => {
