@@ -41,11 +41,9 @@ app.use('/api/inapp', function(req, res) {
 //app.use('/api/events', eventsRouter);
 app.use('/api/events', async(req, res) => {
   try{
-      const response=await axios.post('https://api.iterable.com/api/events'+req.url, req.body,{headers: {'api-key': req.headers['api-key']}}
-  )
+      const response=await axios.post('https://api.iterable.com/api/events'+req.url, req.body,{headers: {'api-key': req.headers['api-key']}})
       res.status(200).json(response.data);
   }
-
   catch(err) {
       console.error(err);
       res.json(err);

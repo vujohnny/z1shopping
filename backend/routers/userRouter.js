@@ -4,23 +4,23 @@ import bcrypt from 'bcryptjs';
 import data from '../data.js';
 import User from '../models/userModel.js';
 import { generateToken, isAdmin, isAuth } from '../utils.js';
+import axios from 'axios';
 
 const userRouter = express.Router();
 
 userRouter.post(
   '/update',
   expressAsyncHandler(async (req, res) => {
-    fetch('http://54.212.26.219:5000/api/demo/623c0da3b4b34eef2e91374b/analytic', {
-    method: 'POST',
-    body: JSON.stringify(req.body),
-    headers: req.headers
-      }).then(res => res.json())
-        .then(json => {
-          console.log(json)
-          res.send(json);
-        })
-        .catch(err => console.log(err))
-          })
+    try{
+      const response=await axios.post('https://api.iterable.com/api/users'+req.url, req.body,{headers: {'api-key': req.headers['api-key']}})
+      res.status(200).json(response.data);
+    }
+    catch(err) {
+        console.error(err);
+        res.json(err);
+
+    };
+  })
 );
 
 userRouter.get(
