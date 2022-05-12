@@ -50,6 +50,17 @@ app.use('/api/events', async(req, res) => {
 
   };
 });
+app.use('/api/templates', async(req, res) => {
+  try{
+      const response=await axios.post('https://api.iterable.com/api/templates'+req.url, req.body,{headers: {'api-key': req.headers['api-key']}})
+      res.status(200).json(response.data);
+  }
+  catch(err) {
+      console.error(err);
+      res.json(err);
+
+  };
+});
 app.use('/api/uploads', uploadRouter);
 app.use('/api/users', userRouter);
 app.use('/api/products', productRouter);
