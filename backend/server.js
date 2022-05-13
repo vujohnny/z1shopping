@@ -27,7 +27,7 @@ mongoose.connect(process.env.MONGODB_URL || 'mongodb+srv://admin:286817100@devco
   useCreateIndex: true,
 });
 app.use('/api/demo', demoRouter);
-app.use('/api/inapp', function(req, res) {
+/*app.use('/api/inapp', function(req, res) {
   var url = 'https://api.iterable.com/api/inApp'+ req.url;
   var r = null;
   if(req.method === 'POST') {
@@ -37,6 +37,22 @@ app.use('/api/inapp', function(req, res) {
   }
 
   req.pipe(r).pipe(res);
+});*/
+app.use('/api/inapp', async(req, res) => {
+  try{
+    if(req.method === 'POST') {
+      const response=await axios.post('https://api.iterable.com/api/events'+req.url, req.body,{headers: {'api-key': req.headers['api-key']}})
+      res.status(200).json(response.data);
+   } else {
+      const response=await axios.get('https://api.iterable.com/api/events'+req.url, req.body,{headers: {'api-key': req.headers['api-key']}})
+      res.status(200).json(response.data);
+   }
+    
+  }
+  catch(err) {
+      console.error(err);
+      res.json(err);
+  };
 });
 //app.use('/api/events', eventsRouter);
 app.use('/api/events', async(req, res) => {
