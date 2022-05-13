@@ -13,6 +13,7 @@ import inappRouter from './routers/inappRouter.js';
 import eventsRouter from './routers/eventsRouter.js';
 import request from 'request';
 import axios from 'axios';
+import { response } from 'express';
 
 
 dotenv.config();
@@ -36,23 +37,47 @@ app.use('/api/demo', demoRouter);
      r = request(url);
   }
 
-  req.pipe(r).pipe(res);
+  res.pipe(r).pipe(res);
 });*/
 app.use('/api/inapp', async(req, res) => {
   try{
     if(req.method === 'POST') {
-      const response=await axios.post('https://api.iterable.com/api/events'+req.url, req.body,{headers: {'api-key': req.headers['api-key']}})
-      res.status(200).json(response.data);
+        const response = await axios.post('https://api.iterable.com/api/inApp'+req.url, req.body,{headers: {'api-key': req.headers['api-key']}});
+        //console.log(`Status: ${res.status}`);
+        //console.log('Body: ', res.data);
+        res.status(200).json(response.data); 
    } else {
-      const response=await axios.get('https://api.iterable.com/api/events'+req.url, req.body,{headers: {'api-key': req.headers['api-key']}})
-      res.status(200).json(response.data);
+       /*//response=await axios.get('https://api.iterable.com/api/inapp'+req.url, req.body,{headers: {'api-key': req.headers['api-key']}});
+       const options = {
+        url: 'https://api.iterable.com/api/inapp'+req.url,
+        method: 'GET',
+        headers: {
+          'api-key': req.headers['api-key']
+        }
+      }; 
+       const response= request(options);
+       console.log (res);
+       //res.status(200).json(response.data);
+       //res.pipe(response).pipe(res);*/
+       const response = await axios.get('https://api.iterable.com/api/inApp'+req.url, req.body,{headers: {'api-key': req.headers['api-key']}});
+        //console.log(`Status: ${res.status}`);
+        //console.log('Body: ', res.data);
+        res.status(200).json(response.data); 
    }
-    
+
   }
   catch(err) {
-      console.error(err);
-      res.json(err);
+      console.error(err.response.data);
+      res.json(err.response.data);
   };
+
+  axios.post('https://api.iterable.com/api/inapp'+req.url, req.body)
+    .then((res) => {
+        console.log(`Status: ${res.status}`);
+        console.log('Body: ', res.data);
+    }).catch((err) => {
+        console.error(err);
+    });
 });
 //app.use('/api/events', eventsRouter);
 app.use('/api/events', async(req, res) => {
