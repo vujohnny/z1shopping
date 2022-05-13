@@ -71,13 +71,6 @@ app.use('/api/inapp', async(req, res) => {
       res.json(err.response.data);
   };
 
-  axios.post('https://api.iterable.com/api/inapp'+req.url, req.body)
-    .then((res) => {
-        console.log(`Status: ${res.status}`);
-        console.log('Body: ', res.data);
-    }).catch((err) => {
-        console.error(err);
-    });
 });
 //app.use('/api/events', eventsRouter);
 app.use('/api/events', async(req, res) => {
